@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        nav {
+            background-color: #555;
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 10px;
+        }
+
+        .content {
+            flex: 1;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            color: #333;
+        }
+
+        p {
+            text-align: justify;
+        }
+
+        .creative-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        .creative-form label {
+            margin-bottom: 8px;
+        }
+
+        .creative-form input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .creative-form button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .creative-form button:hover {
+            background-color: #555;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать на наш сайт!</h1>
+    </header>
+    <nav>
+        {% if username %}
+        <p>Вы вошли как {{ username }}</p>
+        <a href="{{ url_for('logout') }}">Выйти</a>
+        {% else %}
+        <a href="{{ url_for('login') }}">Вход</a>
+        <a href="{{ url_for('register') }}">Регистрация</a>
+        {% endif %}
+    </nav>
+    <div class="content">
+        <h2>О нас</h2>
+        <p>Добро пожаловать на наш удивительный веб-сайт! Мы создали его для того, чтобы делиться интересной информацией,
+            общаться с нашими пользователями и создавать уютное виртуальное пространство.</p>
+
+        <h2>Почему выбрать нас?</h2>
+        <p>Наш веб-сайт предоставляет уникальный опыт благодаря креативным функциям, разнообразию контента и дружелюбному
+            сообществу. Присоединяйтесь к нам и открывайте новые возможности!</p>
+
+        <h2>Свяжитесь с нами</h2>
+        <p>Если у вас есть вопросы, предложения или вы просто хотите поделиться своим мнением, свяжитесь с нами через
+            форму ниже:</p>
+
+        <div class="creative-form">
+            <form method="POST" action="/contact">
+                <label for="name">Ваше имя:</label>
+                <input type="text" name="name" id="name" required>
+                <label for="email">Ваш email:</label>
+                <input type="email" name="email" id="email" required>
+                <label for="message">Ваше сообщение:</label>
+                <textarea name="message" id="message" rows="5" required></textarea>
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        &copy; 2023 © BrovkinArtem
+    </footer>
+</body>
+</html>
+

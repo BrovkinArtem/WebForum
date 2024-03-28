@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .comments {
+            margin-top: 20px;
+        }
+
+        .comment {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        /* Стили для формы комментария */
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        /* Стили для пагинации */
+        .pagination-container {
+            text-align: center;
+        }
+
+        .pagination {
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pagination li {
+            display: inline;
+            margin: 0 5px;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .pagination a:hover {
+            background-color: #555;
+            color: #fff;
+            border: 1px solid #555;
+        }
+
+        .pagination .active a {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>User Panel</h1>
+        <a href="/logout" style="position: absolute; top: 20px; right: 20px; color: #fff; text-decoration: none;">Logout</a>
+    </header>
+
+    <div class="container">
+        <h2>Posts</h2>
+        <ul>
+            {% for post in posts %}
+            <li>
+                <h3>{{ post[1] }}</h3>
+                <p>{{ post[2] }}</p>
+                {% if post[3] %}
+                    <img src="{{ post[3] }}" alt="Image">
+                {% endif %}
+
+                <div class="comments">
+                    <h4>Comments:</h4>
+                    <ul>
+                        {% for comment in post_comments[post[0]] %}
+                            <li class="comment">{{ comment[3] }} - {{ comment[4] }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Form for adding a new comment -->
+                <form action="{{ url_for('add_comment', post_id=post[0]) }}" method="post">
+                    <label for="comment">Add a comment:</label>
+                    <input type="text" name="comment" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Pagination with stylish styling -->
+    <div class="container pagination-container">
+        <ul class="pagination">
+            {% if page > 1 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('user_panel', page=page-1) }}">Previous</a>
+            </li>
+            {% endif %}
+            {% for p in pages %}
+            <li class="page-item {% if p == page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('user_panel', page=p) }}">{{ p }}</a>
+            </li>
+            {% endfor %}
+            {% if page < pages|length %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('user_panel', page=page+1) }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</body>
+</html>
